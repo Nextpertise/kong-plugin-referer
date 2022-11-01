@@ -3,7 +3,7 @@ describe("Referer plugin (unit)", function()
 
   setup(function()
     _G._TEST = true
-    handler = require("kong.plugins.referer.handler")
+    handler = require("src.handler")
   end)
 
 
