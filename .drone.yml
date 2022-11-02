@@ -3,13 +3,13 @@ kind: pipeline
 type: docker
 
 steps:
-  - name: referer kong 2.0
+  - name: consumer-referer kong 2.0
     image: plugins/docker
     depends_on:
       - clone
     privileged: true
     settings:
-      repo: registry.nextpertise.tools/nextpertise/kong-plugin-referer
+      repo: registry.nextpertise.tools/nextpertise/kong-plugin-consumer-referer
       registry: registry.nextpertise.tools
       pull_image: true
       build_args:
@@ -20,13 +20,13 @@ steps:
         from_secret: platform_harbor_password
       tags:
         - "2.0"
-  - name: referer kong 2.7
+  - name: consumer-referer kong 2.7
     image: plugins/docker
     depends_on:
       - clone
     privileged: true
     settings:
-      repo: registry.nextpertise.tools/nextpertise/kong-plugin-referer
+      repo: registry.nextpertise.tools/nextpertise/kong-plugin-consumer-referer
       registry: registry.nextpertise.tools
       pull_image: true
       build_args:

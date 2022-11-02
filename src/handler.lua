@@ -23,6 +23,7 @@ end
 
 local function testListReferer(listReferer, refererToTest)
   local refererDomain = refererToTest:match("^https?://([^/]+)")
+
   if refererDomain == nil then
     return false
   end
@@ -39,11 +40,11 @@ end
 
 local function doTestReferer(conf)
   local header = ngx_get_headers()["Referer"]
-
   if type(header) == "string" then
     -- first check our cache
     local refererOk = conf.lru:get(header)
     if refererOk == nil then
+      kong.log.err(conf.referers)
       -- no result in our cache yet, so go match the string patterns
       refererOk = testListReferer(conf.referers, header)
       conf.lru:set(header, refererOk)
@@ -52,7 +53,6 @@ local function doTestReferer(conf)
       return true
     end
   end
-
   return false, {status = 403, message = "Invalid referer"}
 end
 
@@ -92,7 +92,7 @@ end
 
 -- constructor
 function plugin:new()
-  plugin.super.new(self, "referer")
+  plugin.super.new(self, "consumer-referer")
 end
 
 
@@ -112,13 +112,7 @@ end
 
 -- set the plugin priority, which determines plugin execution order
 -- since this plugin is cheap, run it before auth plugins
-plugin.PRIORITY = 1500
-
-if _G._TEST then
-  -- only export if we're testing
-  plugin._testListReferer = testListReferer
-  plugin._config_cache = config_cache
-end
+plugin.PRIORITY = 10
 
 -- return our plugin object
 return plugin

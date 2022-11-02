@@ -1,5 +1,5 @@
-package = "kong-plugin-referer"
-version = "2.0-0"
+package = "kong-plugin-consumer-referer"
+version = "1.0-0"
 
 supported_platforms = {"linux", "macosx"}
 source = {
@@ -12,10 +12,15 @@ description = {
   license = "MIT"
 }
 
+dependencies = {
+  "lua >= 5.1"
+}
+
+
 build = {
   type = "builtin",
   modules = {
-    ["kong.plugins.referer.handler"] = "src/handler.lua",
-    ["kong.plugins.referer.schema"] = "src/schema.lua"
+    ["kong.plugins.consumer-referer.handler"] = "src/handler.lua",
+    ["kong.plugins.consumer-referer.schema"] = "src/schema.lua"
   }
 }

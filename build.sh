@@ -1,3 +1,3 @@
 #!/bin/bash
 
-luarocks pack kong-plugin-referer
+luarocks pack kong-plugin-consumer-referer

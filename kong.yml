@@ -1,0 +1,53 @@
+_format_version: "2.1"
+
+services:
+- name: fooservice
+  url: https://pastebin.com/raw/Xw27yqAJ
+  plugins:
+  - name: key-auth
+    config:
+      key_names:
+      - apikey
+      key_in_query: false
+      anonymous: anonymous
+    enabled: true
+    protocols:
+    - http
+    - https
+
+  routes:
+  - name: fooservice-route
+    paths:
+    - /fooservice
+
+
+consumers:
+- custom_id: anonymous
+  username: anonymous
+  plugins:
+  - name: request-termination
+    config:
+      body: '{"message":"You cannot consume this service"}'
+      content_type: application/json
+      message: null
+      status_code: 403
+    enabled: true
+    protocols:
+    - http
+    - https
+- custom_id: test
+  username: test
+  plugins:
+  - name: consumer-referer
+    config:
+      referers:
+      - '*.test.com'
+    enabled: true
+    protocols:
+    - http
+    - https
+
+keyauth_credentials:
+- consumer: test
+  ttl: 999999
+  key: qwerty12345676757

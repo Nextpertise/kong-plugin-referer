@@ -1,9 +1,15 @@
 return {
-  no_consumer = true,
+  name = "consumer-referer",
   fields = {
-    referers = {
-      required = true,
-      type = "array"
-    },
+    { config = {
+      type = "record",
+      fields = {
+        { referers = {
+            type = "array",
+            elements = { type = "string", },
+            required = true,
+        }},
+      }
+    }}
   }
 }
